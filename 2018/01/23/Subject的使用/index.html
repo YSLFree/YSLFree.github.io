@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Subject的使用 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="public abstract class Subject&amp;lt;T&amp;gt; extends Observable&amp;lt;T&amp;gt; implements Observer&amp;lt;T&amp;gt;根据Subject类的定义可以看出Subject既是Observer，同时也是Observable，所以他可以充当Observer，也可以充当Observable,而且他也是链接Observer和Observa">
+<meta name="keywords" content="Android,RxJava2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Subject的使用">
+<meta property="og:url" content="http://yoursite.com/2018/01/23/Subject的使用/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="public abstract class Subject&amp;lt;T&amp;gt; extends Observable&amp;lt;T&amp;gt; implements Observer&amp;lt;T&amp;gt;根据Subject类的定义可以看出Subject既是Observer，同时也是Observable，所以他可以充当Observer，也可以充当Observable,而且他也是链接Observer和Observa">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/01/23/Subject的使用/images/rxjava.png">
+<meta property="og:updated_time" content="2018-04-26T14:46:27.542Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Subject的使用">
+<meta name="twitter:description" content="public abstract class Subject&amp;lt;T&amp;gt; extends Observable&amp;lt;T&amp;gt; implements Observer&amp;lt;T&amp;gt;根据Subject类的定义可以看出Subject既是Observer，同时也是Observable，所以他可以充当Observer，也可以充当Observable,而且他也是链接Observer和Observa">
+<meta name="twitter:image" content="http://yoursite.com/2018/01/23/Subject的使用/images/rxjava.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Subject的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/01/23/Subject的使用/" class="article-date">
+  <time datetime="2018-01-23T04:40:03.000Z" itemprop="datePublished">2018-01-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/RxJava/">RxJava</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+<div class="article-gallery">
+  <div class="article-gallery-photos">
+    
+      <a class="article-gallery-img fancybox" href="/images/rxjava.png" rel="gallery_cjkva2mra00007kvodc0wpj55">
+        <img src="/images/rxjava.png" itemprop="image">
+      </a>
+    
+  </div>
+</div>
+
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Subject的使用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><code>public abstract class Subject&lt;T&gt; extends Observable&lt;T&gt; implements Observer&lt;T&gt;</code><br>根据<code>Subject</code>类的定义可以看出<code>Subject</code>既是<code>Observer</code>，同时也是<code>Observable</code>，所以他可以充当<code>Observer</code>，也可以充当<code>Observable</code>,而且他也是链接<code>Observer</code>和<code>Observable</code>的桥梁，<code>Subject</code>一共有四种。<br><a id="more"></a></p>
+<h3 id="1-AsyncSubject"><a href="#1-AsyncSubject" class="headerlink" title="1. AsyncSubject"></a>1. AsyncSubject</h3><p><code>Observer</code>只会收到<code>AsyncSubject</code>发射的在<code>onComplete</code>之前的最后一个数据。简单的说使用<code>AsyncSubject</code>无论发射多少数据，<code>Observer</code>永远都只能收到一个。但是当程序出错而终止时。<code>AsyncSubject</code>不会发射任何数据，只会传递一个异常通知。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">AsyncSubject&lt;String&gt; asyncSubject = AsyncSubject.create();</span><br><span class="line">asyncSubject.onNext(&quot;张三&quot;);</span><br><span class="line">asyncSubject.onNext(&quot;李四&quot;);</span><br><span class="line">try &#123;</span><br><span class="line">    int a = 1/0;</span><br><span class="line">&#125;catch (Exception e)&#123;</span><br><span class="line">    asyncSubject.onError(e);</span><br><span class="line">&#125;</span><br><span class="line">asyncSubject.onNext(&quot;王五&quot;);</span><br><span class="line">asyncSubject.onComplete();</span><br><span class="line">asyncSubject.subscribe(new Observer&lt;String&gt;() &#123;</span><br><span class="line">    public void onSubscribe(Disposable d) &#123;</span><br><span class="line">        Log.i(TAG, &quot;onSubscribe&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void onNext(String s) &#123;</span><br><span class="line">        Log.i(TAG, &quot;onNext: &quot;+s);</span><br><span class="line">    &#125;</span><br><span class="line">    public void onError(Throwable e) &#123;</span><br><span class="line">        Log.i(TAG, &quot;onError&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    public void onComplete() &#123;</span><br><span class="line">        Log.i(TAG, &quot;onComplete &quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>执行结果为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">01-24 14:22:12.462 11437-11437/com.xp.note.rxjava I/MainActivity: onSubscribe</span><br><span class="line">01-24 14:22:12.462 11437-11437/com.xp.note.rxjava I/MainActivity: onError</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-BehaviorSubject"><a href="#2-BehaviorSubject" class="headerlink" title="2. BehaviorSubject"></a>2. BehaviorSubject</h3><p>当<code>Observer</code>订阅<code>BehaviorSubject</code>的时候，<code>BehaviorSubject</code>将发送离订阅最近的上一个值。如果没有该值，则发送一个默认值，然后继续发送后面的其他数据。如果程序遇到错误，<code>BehaviorSubject</code>将不会发送任何数据，而是传递一个异常通知。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">BehaviorSubject behaviorSubject = BehaviorSubject.createDefault(&quot;默认值&quot;);</span><br><span class="line">// 此处订阅将受到 默认值，张三，李四，王五</span><br><span class="line">behaviorSubject.onNext(&quot;张三&quot;);</span><br><span class="line">// 此处订阅将受到 张三，李四，王五</span><br><span class="line">behaviorSubject.onNext(&quot;李四&quot;);	</span><br><span class="line">// 此处订阅将受到 李四，王五</span><br><span class="line">behaviorSubject.onNext(&quot;王五&quot;);</span><br><span class="line">// 此处订阅将受到 王五</span><br><span class="line">behaviorSubject.subscribe(new Consumer&lt;String&gt;() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void accept(String s) throws Exception &#123;</span><br><span class="line">        Log.i(TAG, &quot;accept: &quot;+s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">behaviorSubject.onComplete();</span><br><span class="line">// 此处订阅将受到没有回调</span><br></pre></td></tr></table></figure></p>
+<h3 id="3-PublishSubject"><a href="#3-PublishSubject" class="headerlink" title="3. PublishSubject"></a>3. PublishSubject</h3><p><code>PublishSubjet</code>只会发送订阅时间之后的数据；即从哪里订阅，就从哪里开始发送。所以在订阅之前的数据就会丢失。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PublishSubject publishSubject = PublishSubject.create();</span><br><span class="line">//此处订阅将收到 张三，李四，王五</span><br><span class="line">publishSubject.onNext(&quot;张三&quot;);</span><br><span class="line">//此处订阅将收到 李四，王五</span><br><span class="line">publishSubject.onNext(&quot;李四&quot;);</span><br><span class="line">//此处订阅将收到 王五</span><br><span class="line">publishSubject.subscribe(observer);</span><br><span class="line">publishSubject.onNext(&quot;王五&quot;);</span><br><span class="line">publishSubject.onComplete();</span><br><span class="line">//此处订阅将没有回调</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-ReplaySubject"><a href="#4-ReplaySubject" class="headerlink" title="4. ReplaySubject"></a>4. ReplaySubject</h3><p>无论何时订阅<code>ReplaySubject</code>，<code>ReplaySubject</code>都将会把所有的历史信息全部发出。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ReplaySubject replaySubject = ReplaySubject.create();</span><br><span class="line">replaySubject.onNext(&quot;张三&quot;);</span><br><span class="line">replaySubject.onNext(&quot;李四&quot;);</span><br><span class="line">replaySubject.subscribe(observer);</span><br><span class="line">replaySubject.onNext(&quot;王五&quot;);</span><br><span class="line">replaySubject.onComplete();</span><br></pre></td></tr></table></figure></p>
+<p>结果输出为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">01-24 15:06:25.638 13955-13955/com.xp.note.rxjava I/MainActivity: onSubscribe</span><br><span class="line">01-24 15:06:25.638 13955-13955/com.xp.note.rxjava I/MainActivity: onNext: 张三</span><br><span class="line">01-24 15:06:25.638 13955-13955/com.xp.note.rxjava I/MainActivity: onNext: 李四</span><br><span class="line">01-24 15:06:25.638 13955-13955/com.xp.note.rxjava I/MainActivity: onNext: 王五</span><br><span class="line">01-24 15:06:25.638 13955-13955/com.xp.note.rxjava I/MainActivity: onComplete</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/01/23/Subject的使用/" data-id="cjkva2mra00007kvodc0wpj55" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava2/">RxJava2</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/08/15/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/RxJava/">RxJava</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava2/">RxJava2</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/RxJava2/" style="font-size: 10px;">RxJava2</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/08/">August 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/08/15/Test-Hexo/">Test Hexo</a>
+          </li>
+        
+          <li>
+            <a href="/2018/08/15/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/23/Subject的使用/">Subject的使用</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
